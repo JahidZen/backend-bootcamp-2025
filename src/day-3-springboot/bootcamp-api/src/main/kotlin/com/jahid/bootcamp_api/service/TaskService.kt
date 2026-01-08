@@ -2,6 +2,7 @@ package com.jahid.bootcamp_api.service
 
 import com.jahid.bootcamp_api.model.Task
 import com.jahid.bootcamp_api.repository.TaskRepository
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.stereotype.Service
 
 
@@ -20,4 +21,19 @@ class TaskService(private val taskRepository: TaskRepository) {
     fun createTask(task: Task): Task {
         return taskRepository.save(task)
     }
+
+
+    fun getTaskById(id: Long) = taskRepository.findById(id)
+
+
+    fun updateTask(id: Long, updatedTask: Task): Task? {
+        if (!taskRepository.existsById(id)) return null
+
+        val taskToSave = updatedTask.copy(id = id)
+        return taskRepository.save(taskToSave)
+    }
+
+
+    fun existsById(id: Long) = taskRepository.existsById(id)
+    fun deleteTask(id: Long) = taskRepository.deleteById(id)
 }
