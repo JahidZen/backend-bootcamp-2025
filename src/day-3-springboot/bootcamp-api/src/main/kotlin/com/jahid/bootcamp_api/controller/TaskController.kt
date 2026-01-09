@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -51,6 +52,20 @@ class TaskController(private val taskService: TaskService) {
             ResponseEntity.ok(saved)
         }
     }
+
+
+
+
+    @PutMapping("/{id}")
+    fun letsUpdateTask(@PathVariable id: Long, @RequestBody task: Task): ResponseEntity<Task> {
+        val updated = taskService.updateTask(id, task)
+        return if (!taskService.existsById(id)) {
+            ResponseEntity.notFound().build()
+        } else {
+            ResponseEntity.ok(updated)
+        }
+    }
+
 
 
 
